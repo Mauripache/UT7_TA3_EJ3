@@ -120,6 +120,46 @@ public class TClasificador {
               quickSort(arr, index, right, profMax, profActual+1);
     }
 
+	protected int[] ordenarPorHeapSort(int[] datosParaClasificar) {
+		for (int i = (datosParaClasificar.length - 1) / 2; i >= 0; i--) { //Armo el heap inicial de n-1 div 2 hasta 0
+			armaHeap(datosParaClasificar, i, datosParaClasificar.length - 1);
+		}
+		for (int i = datosParaClasificar.length - 1; i  > 1; i--) {
+			intercambiar(datosParaClasificar,0,i);
+			armaHeap(datosParaClasificar, 0, i-1);
+		}
+		return datosParaClasificar;
+	}
+
+	private void armaHeap(int[] datosParaClasificar, int primero, int ultimo) {
+		if (primero < ultimo){
+			int r = primero;
+			while(r <= ultimo / 2){
+				if (ultimo == 2*r){ //r tiene un hijo solo
+						if (datosParaClasificar[r] < datosParaClasificar[r*2]){
+							intercambiar(datosParaClasificar, r, 2 * r);
+							r = 2 ;
+						} else {
+							r = ultimo;
+						}
+				} else { //r tiene 2 hijos
+					int posicionIntercambio = 0;
+					if (datosParaClasificar[2*r] > datosParaClasificar[2*r + 1]){
+						posicionIntercambio = 2 * r +1;
+					} else {
+						posicionIntercambio = 2 * r;
+					}
+					if (datosParaClasificar[r] < datosParaClasificar[posicionIntercambio]){
+						intercambiar(datosParaClasificar,r,posicionIntercambio);
+						r = posicionIntercambio;
+					} else {
+						r = ultimo;
+					}
+				}
+			}			
+		}
+	}
+
     private int partition(int arr[], int left, int right)
     {
           int i = left, j = right;

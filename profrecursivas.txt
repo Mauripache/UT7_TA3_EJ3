@@ -1,0 +1,18 @@
+
+para 10.000 datos:
+
+aleatorio: 22 (profundidad recursiva)
+
+ascendente: 13 (profundidad recursiva)
+
+descendente: 14 (profundidad recursiva)
+
+para 300 datos:
+
+aleatorio: 12 (profundidad recursiva)
+
+ascendente: 8 (profundidad recursiva)
+
+descendente: 9 (profundidad recursiva)
+
+

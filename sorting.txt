@@ -1,0 +1,47 @@
+CLASIFICACION DE ALGORITMOS:
+
+
+DE INSERCIÓN:
+
+-insertionSort
+-ShellSort
+
+DE INTERCAMBIO:
+
+-Bubble
+-quicksort
+
+
+EN BUBBLESORT, (inter)CAMBIAS SOLAMENTE ADYACENTES (En muchas pasadas de menor largo), desde el indice del eme
+EN INSERTIONSORT, desde el índice del elemento actual hasta el final, va a mover al elemento a su izquierda mientras tenga números mayores a el a su izquierda.
+EN SHELLSORT, hace lo mismo que insertionsort, pero con varios largos, evitando repetir comparaciones innecesarias, va desde 0 hasta N (n es el tamaño del array),
+parándose en el actual, recorriendo con la metodología insertionsort.
+es como un insertionsort con muchos anchos.
+
+en inserción, en caso de que el array esté ordenado, para la posición i-ésima, se dejará al elemento en esa posición (garantizadamente).
+
+empezando de la derecha desde bubblesort, en el paso p-ésimo, la posición del array ordenado p ya estará "hecha".
+empezando de la izquierda, te aseguras que en el primer paso tenes el ultimo
+
+
+
+
+QUICKSORT:
+Best case             Average case             Wrost case
+ --------------------------------------------------------------
+   O(nlog2n)              O(nlogn)                  O(n²)
+
+SHELLSORT:
+Best case             Average case             Wrost case
+ --------------------------------------------------------------
+   O(nlogn)              O(nlogn)                  O(n²)
+
+BUBBLESORT:
+Best case             Average case             Wrost case
+ --------------------------------------------------------------
+   O(n)                  O(n²)                  O(n²)
+
+INSERTIONSORT:
+Best case             Average case             Wrost case
+ --------------------------------------------------------------
+   O(n)                  O(n²)                  O(n²)

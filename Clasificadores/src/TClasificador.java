@@ -124,7 +124,7 @@ public class TClasificador {
 		for (int i = (datosParaClasificar.length - 1) / 2; i >= 0; i--) { //Armo el heap inicial de n-1 div 2 hasta 0
 			armaHeap(datosParaClasificar, i, datosParaClasificar.length - 1);
 		}
-		for (int i = datosParaClasificar.length - 1; i  > 1; i--) {
+		for (int i = datosParaClasificar.length - 1; i  >= 1; i--) {
 			intercambiar(datosParaClasificar,0,i);
 			armaHeap(datosParaClasificar, 0, i-1);
 		}
@@ -136,12 +136,12 @@ public class TClasificador {
 			int r = primero;
 			while(r <= ultimo / 2){
 				if (ultimo == 2*r){ //r tiene un hijo solo
-						if (datosParaClasificar[r] < datosParaClasificar[r*2]){
-							intercambiar(datosParaClasificar, r, 2 * r);
-							r = 2 ;
-						} else {
-							r = ultimo;
-						}
+					if (datosParaClasificar[r] > datosParaClasificar[r*2]){
+						intercambiar(datosParaClasificar, r, 2 * r);
+						r = 2 ;
+					} else {
+						r = ultimo;
+					}
 				} else { //r tiene 2 hijos
 					int posicionIntercambio = 0;
 					if (datosParaClasificar[2*r] > datosParaClasificar[2*r + 1]){
@@ -149,7 +149,7 @@ public class TClasificador {
 					} else {
 						posicionIntercambio = 2 * r;
 					}
-					if (datosParaClasificar[r] < datosParaClasificar[posicionIntercambio]){
+					if (datosParaClasificar[r] > datosParaClasificar[posicionIntercambio]){
 						intercambiar(datosParaClasificar,r,posicionIntercambio);
 						r = posicionIntercambio;
 					} else {
@@ -222,34 +222,37 @@ public class TClasificador {
 
 
 	public static void main(String args[]) {
-
 		//int arr[] = { 12, 3, 5, 7, 4, 19, 26 };
 		//int n = arr.length;
 		//manerasPivote.findMedian(arr, n);
 
-		int[] profundidadMax = new int[]{0};
-		int profundidadesSumadas = 0;
+		// int[] profundidadMax = new int[]{0};
+		// int profundidadesSumadas = 0;
 		TClasificador clasif = new TClasificador();
 		GeneradorDatosGenericos gdg = new GeneradorDatosGenericos();
 		int[] vectorAleatorio = gdg.generarDatosAleatorios();
-		int[] vectorAscendente = gdg.generarDatosAscendentes();
-		int[] vectorDescendente = gdg.generarDatosDescendentes();
-
-		for (int i = 0; i < 50; i++){
-			clasif.quickSort(vectorDescendente, 0, vectorAleatorio.length-1, profundidadMax, 0);
-			vectorAleatorio = gdg.generarDatosDescendentes();
-			profundidadesSumadas += profundidadMax[0];
-		}
-		//long antes = System.currentTimeMillis();
-		//int[] resAleatorio = clasif.clasificar(vectorAleatorio,	4);
-		//long despues = System.currentTimeMillis();
-		//System.out.println(despues-antes);
+		// int[] vectorAscendente = gdg.generarDatosAscendentes();
+		// int[] vectorDescendente = gdg.generarDatosDescendentes();
+		// clasif.ordenarPorHeapSort(vectorAleatorio);
+		// for (int i : vectorAleatorio) {
+		// 	System.out.print(i + " ");
+		// }
+		// System.out.println(clasif.estaOrdenado(vectorAleatorio));
+		// for (int i = 0; i < 50; i++){
+		// 	clasif.ordenarPorHeapSort(vectorAleatorio)
+		// 	vectorAleatorio = gdg.generarDatosDescendentes();
+		// 	profundidadesSumadas += profundidadMax[0];
+		// }
+		long antes = System.nanoTime();
+		clasif.ordenarPorHeapSort(vectorAleatorio);
+		long despues = System.nanoTime();
+		System.out.println(despues-antes);
 		//for (int i = 0; i < vectorAleatorio.length; i++) {
 		//	System.out.print(vectorAleatorio[i] + " ");
 		//}
-		System.out.println("   ");
-		System.out.println("   ");
-		System.out.println("máximo de profundidad recursiva: " + profundidadesSumadas/50);
+		// System.out.println("   ");
+		// System.out.println("   ");
+		// System.out.println("máximo de profundidad recursiva: " + profundidadesSumadas/50);
 	/*	System.out.println("   ");
 		System.out.println("   ");
 		System.out.println(LLAMADAS_AL_QUICK);

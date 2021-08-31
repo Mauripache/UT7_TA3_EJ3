@@ -5,6 +5,7 @@ public class TClasificador {
 	public static final int METODO_CLASIFICACION_BURBUJA = 3;
 	public static final int METODO_CLASIFICACION_RAPIDA = 4;
 	public static final int METODO_CLASIFICACION_HEAPSORT = 5;
+	public static final int METODO_CLASIFICACION_SELECCION = 6;
 
 	//private static int LLAMADAS_AL_QUICK = 0;
 
@@ -41,11 +42,19 @@ public class TClasificador {
 			if (funcionar)
 				return ordenarPorHeapSort(datosParaClasificar);
 			return ordenarPorHeapSortFalso(datosParaClasificar);
+		case METODO_CLASIFICACION_SELECCION:
+			if (funcionar)
+				return ordenarPorSeleccion(datosParaClasificar);
+			return ordenarPorSeleccionFalso(datosParaClasificar);
 		default:
 			System.err.println("Este codigo no deberia haberse ejecutado");
 			break;
 		}
 		return datosParaClasificar;
+	}
+
+	private int[] ordenarPorSeleccionFalso(int[] datosParaClasificar) {
+		return null;
 	}
 
 	private int[] ordenarPorHeapSortFalso(int[] datosParaClasificar) {
@@ -334,11 +343,14 @@ public class TClasificador {
 		TClasificador clasif = new TClasificador();
 		GeneradorDatosGenericos gdg = new GeneradorDatosGenericos();
 		int[] vectorAleatorio = gdg.generarDatosAleatorios();
+
+		System.out.println(clasif.obtenerTiempoClasificacion(1000000000, 6));
+
 		// int[] vectorAscendente = gdg.generarDatosAscendentes();
 		// int[] vectorDescendente = gdg.generarDatosDescendentes();
-		// clasif.ordenarPorHeapSort(vectorAleatorio);
+		// clasif.clasificar(vectorAleatorio, 4, true);
 		// for (int i : vectorAleatorio) {
-		// 	System.out.print(i + " ");
+		// System.out.print(i + " ");
 		// }
 		// System.out.println(clasif.estaOrdenado(vectorAleatorio));
 		// for (int i = 0; i < 50; i++){
@@ -346,10 +358,10 @@ public class TClasificador {
 		// 	vectorAleatorio = gdg.generarDatosDescendentes();
 		// 	profundidadesSumadas += profundidadMax[0];
 		// }
-		long antes = System.nanoTime();
-		clasif.ordenarPorSeleccion(vectorAleatorio);
-		long despues = System.nanoTime();
-		System.out.println(despues-antes);
+		// long antes = System.nanoTime();
+		// clasif.ordenarPorSeleccion(vectorAleatorio);
+		// long despues = System.nanoTime();
+		// System.out.println(despues-antes);
 		//for (int i = 0; i < vectorAleatorio.length; i++) {
 		//	System.out.print(vectorAleatorio[i] + " ");
 		//}

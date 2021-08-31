@@ -3,7 +3,7 @@
 import java.util.Random;
 
 public class GeneradorDatosGenericos {
-	private static int TAMANIO_MAX = 300;
+	private static int TAMANIO_MAX = 30000;
 	public int[] generarDatosAleatorios() {
 		Random rnd = new Random();
 		int[] datosGenerados = new int[TAMANIO_MAX];

@@ -4,6 +4,8 @@ public class TClasificador {
 	public static final int METODO_CLASIFICACION_SHELL = 2;
 	public static final int METODO_CLASIFICACION_BURBUJA = 3;
 	public static final int METODO_CLASIFICACION_RAPIDA = 4;
+	public static final int METODO_CLASIFICACION_HEAPSORT = 5;
+
 	//private static int LLAMADAS_AL_QUICK = 0;
 
 	/**
@@ -14,22 +16,56 @@ public class TClasificador {
 	 * @param tamanioVector
 	 * @return Un vector del tam. solicitado, ordenado por el algoritmo solicitado
 	 */
-	public int[] clasificar(int[] datosParaClasificar, int metodoClasificacion) {
+	public int[] clasificar(int[] datosParaClasificar, int metodoClasificacion, boolean funcionar) {
 		switch (metodoClasificacion) {
 		case METODO_CLASIFICACION_INSERCION:
-			return ordenarPorInsercion(datosParaClasificar);
+			if (funcionar)
+				return ordenarPorInsercion(datosParaClasificar);
+			return ordenarPorInsercionFalso(datosParaClasificar);	
 		case METODO_CLASIFICACION_SHELL:
-			return ordenarPorShell(datosParaClasificar);
+			if (funcionar)
+				return ordenarPorShell(datosParaClasificar);
+			return ordenarPorShellFalso(datosParaClasificar);	
 		case METODO_CLASIFICACION_BURBUJA:
-			return ordenarPorBurbuja(datosParaClasificar);
+			if (funcionar)
+				return ordenarPorBurbuja(datosParaClasificar);
+			return ordenarPorBurbujaFalso(datosParaClasificar);		
 		case METODO_CLASIFICACION_RAPIDA:
-			//quickSort(datosParaClasificar, 0, datosParaClasificar.length-1);
-			return datosParaClasificar;
+			if (funcionar){
+				int[] profMax = {0};
+				quickSort(datosParaClasificar,0,datosParaClasificar.length-1,profMax,0);
+				return datosParaClasificar;
+			}
+			return ordenarPorQuicksortFalso(datosParaClasificar);
+		case METODO_CLASIFICACION_HEAPSORT:
+			if (funcionar)
+				return ordenarPorHeapSort(datosParaClasificar);
+			return ordenarPorHeapSortFalso(datosParaClasificar);
 		default:
 			System.err.println("Este codigo no deberia haberse ejecutado");
 			break;
 		}
 		return datosParaClasificar;
+	}
+
+	private int[] ordenarPorHeapSortFalso(int[] datosParaClasificar) {
+		return null;
+	}
+
+	private int[] ordenarPorQuicksortFalso(int[] datosParaClasificar) {
+		return null;
+	}
+
+	private int[] ordenarPorBurbujaFalso(int[] datosParaClasificar) {
+		return null;
+	}
+
+	private int[] ordenarPorShellFalso(int[] datosParaClasificar) {
+		return null;
+	}
+
+	private int[] ordenarPorInsercionFalso(int[] datosParaClasificar) {
+		return null;
 	}
 
 	private void intercambiar(int[] vector, int pos1, int pos2) {
@@ -85,7 +121,7 @@ public class TClasificador {
 
 	private boolean estaOrdenado(int[] arrayEntero){
 		int i = 0;
-		while (i<arrayEntero.length-1){
+		while (i < arrayEntero.length-1){
 			if (arrayEntero[i] < arrayEntero[i+1]){
 				i++;
 			}
@@ -233,6 +269,60 @@ public class TClasificador {
 		}
 		return datosParaClasificar;
 	}
+
+
+	public long obtenerTiempoClasificacion(long tiempoResolucion, int metodo){
+		GeneradorDatosGenericos gdg = new GeneradorDatosGenericos();
+		int[] vectorOriginal = gdg.generarDatosAleatorios();
+		// con el generador de datos aleatorios, para el tamaño T, en orden “tipoOrden”
+		//ascendente, descendente o aleatorio)
+		long t1 = System.nanoTime(); //system.nanotime()
+		long  total = 0;
+		int cantLLamadas = 0;
+		while (total < tiempoResolucion) { // cuidado con las unidades que retornan las funciones
+			cantLLamadas += 1;
+			int[] datosCopia = copiarVector(vectorOriginal); // tenemos que trabajar siempre con los mismos datos
+			clasificar(datosCopia, metodo,true); // EJECUTA EL MÉTODO
+			long t2 = System.nanoTime();
+			total = t2 - t1;
+		}
+		System.out.println("Cantidad de llamadas: " + cantLLamadas);
+		// Apreciacion Windows : 1/ 10000
+		long tiempoMedioAlgoritmoBase = total/cantLLamadas;
+		// lo que lleva ejecutar 1 vez el algoritmo, para ese conjunto de datos
+		// ahora tenemos que calcular cuánto se fue en las “cáscaras” y descontarlo
+		vectorOriginal = gdg.generarDatosAleatorios();
+		// con el generador de datos aleatorios, para el tamaño T, en orden “tipoOrden”
+		//ascendente, descendente o aleatorio)
+
+		// LLamar a los metodos de clasificacion falsos.
+		t1 = System.nanoTime(); //system.nanotime()
+		total = 0;
+		cantLLamadas = 0;
+		while (total < tiempoResolucion) {
+			// cuidado con las unidades que retornan las funciones
+			cantLLamadas +=1;
+			int[] datosCopia = copiarVector(vectorOriginal); 
+			clasificar(datosCopia, metodo,false); // EJECUTA EL MÉTODO
+			// EJECUTA LAS LLAMADAS AL MÉTODO (“vacias”)
+			long t2 = System.nanoTime();
+			total = t2 - t1;
+		}
+		long tiempoMedioCascara = total/cantLLamadas;
+		// lo que lleva ejecutar 1 vez la infraestructura del algoritmo, para ese
+		// conjunto de datos
+		long tiempoMedioAlgoritmo = tiempoMedioAlgoritmoBase - tiempoMedioCascara;
+		return tiempoMedioAlgoritmo;
+	}
+
+	private int[] copiarVector(int[] vector) {
+		int[] copia = new int[vector.length];
+		for (int i = 0; i < vector.length; i++) {
+			copia[i] = vector[i];
+		}
+		return copia;
+	}
+ 
  
 	public static void main(String args[]) {
 		//int arr[] = { 12, 3, 5, 7, 4, 19, 26 };
@@ -294,16 +384,4 @@ public class TClasificador {
 		*/
 		
 	}
-
-	public static int[] cambiarAvido(int importe, int[] monedas) {
-        int cantMonedas = monedas.length;
-        int[] salida = new int[cantMonedas];
-        for (int i = cantMonedas - 1 ; i >= 0; i--) {
-            while (monedas[i] <= importe) {
-                salida[i]++;
-                importe = importe - monedas[i]; 
-            }
-        }
-        return salida;
-    }
 }

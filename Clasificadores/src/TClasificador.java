@@ -218,9 +218,22 @@ public class TClasificador {
 			return Integer.max(vector[l], vector[r]);
 		}
 	}
+
+	private int[] ordenarPorSeleccion(int[] datosParaClasificar) {
+		for (int i = 0; i < datosParaClasificar.length - 1; i++) {
+			int indiceMenor = i;
+			int claveMenor = datosParaClasificar[i];
+			for (int j = i + 1; j < datosParaClasificar.length; j++) {
+				if (datosParaClasificar[j] < claveMenor) {
+					indiceMenor = j;
+					claveMenor = datosParaClasificar[j];
+				}
+			}
+			intercambiar(datosParaClasificar, i, indiceMenor);
+		}
+		return datosParaClasificar;
+	}
  
-
-
 	public static void main(String args[]) {
 		//int arr[] = { 12, 3, 5, 7, 4, 19, 26 };
 		//int n = arr.length;
@@ -244,7 +257,7 @@ public class TClasificador {
 		// 	profundidadesSumadas += profundidadMax[0];
 		// }
 		long antes = System.nanoTime();
-		clasif.ordenarPorHeapSort(vectorAleatorio);
+		clasif.ordenarPorSeleccion(vectorAleatorio);
 		long despues = System.nanoTime();
 		System.out.println(despues-antes);
 		//for (int i = 0; i < vectorAleatorio.length; i++) {
